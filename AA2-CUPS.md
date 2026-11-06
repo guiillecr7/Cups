@@ -189,7 +189,7 @@ lpstat -W completed -o
 | 2 | *(nom del document)* | *(enviat / completat)* |
 | 3 | *(nom del document)* | *(enviat / completat)* |
 
-Captura suggerida: `images/15-print-test-client.png` i `images/16-jobs-cups-web.png`.
+
 
 ---
 
@@ -210,7 +210,7 @@ sudo ls -lR /var/spool/cups-pdf/
 | Documents creats | *(llista de PDF generats)* |
 | Proves realitzades | *(resum de la secció 6)* |
 
-Captura suggerida: `images/17-server-pdf-files.png`.
+
 
 ---
 
