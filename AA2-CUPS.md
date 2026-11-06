@@ -20,11 +20,11 @@ sudo apt install cups
 
 `apt update` descarrega els índexs dels repositoris. Al final indica que hi ha 27 paquets actualitzables, però no cal actualitzar-los per a aquesta pràctica.
 
-![apt update](images/01-apt-update.png)
+![apt update](img/01-apt-update.png)
 
 La captura següent mostra l'historial de comandes (`history`), on es veu la comanda `sudo apt install cups` executada al servidor.
 
-![apt install cups](images/02-apt-install-cups.png)
+![apt install cups](img/02-apt-install-cups.png)
 
 ---
 
@@ -40,7 +40,7 @@ Es va instal·lar un sol paquet nou (`printer-driver-cups-pdf 3.0.2`, uns 25,9 k
 
 A la sortida apareix un avís de `needrestart` sobre un nou kernel pendent i serveis que es reiniciarien. No afecta a la pràctica i només indica que convé reiniciar el sistema en algun moment.
 
-![Instal·lació de cups-pdf](images/03-install-cups-pdf.png)
+![Instal·lació de cups-pdf](img/03-install-cups-pdf.png)
 
 ---
 
@@ -64,7 +64,7 @@ Els paràmetres rellevants del fitxer configurat són:
 | `<Location />` | `Order allow,deny` / `Allow all` | Permet l'accés al servidor des de qualsevol adreça de la xarxa. |
 | `<Location /admin>` | `AuthType Default` / `Require user @SYSTEM` / `Allow all` | Permet accedir a les pàgines d'administració des de la xarxa, però exigeix autenticar-se amb un usuari administrador del sistema. |
 
-![Fitxer cupsd.conf](images/04-cupsd-conf.png)
+![Fitxer cupsd.conf](img/04-cupsd-conf.png)
 
 Després de modificar la configuració es reinicia el servei i es comprova que està actiu:
 
@@ -75,7 +75,7 @@ sudo systemctl status cups
 
 L'estat és `active (running)` i el servei està `enabled`, per tant s'iniciarà automàticament amb el sistema.
 
-![Reinici i estat de CUPS](images/05-restart-status-cups.png)
+![Reinici i estat de CUPS](img/05-restart-status-cups.png)
 
 > **Nota de seguretat:** `Allow all` és còmode en un laboratori aïllat (xarxa Host-Only), però en un entorn real caldria limitar l'accés per adreça o subxarxa (per exemple `Allow 192.168.10.0/24`) i protegir la connexió amb xifrat.
 
@@ -87,7 +87,7 @@ L'estat és `active (running)` i el servei està `enabled`, per tant s'iniciarà
 
 Des del navegador del client Zorin OS s'accedeix a la interfície web de CUPS (versió 2.4.16) a `https://192.168.10.1:631`. El navegador mostra l'avís «No és segur» perquè el servidor utilitza un certificat autosignat, cosa normal en aquest entorn de proves.
 
-![Pàgina d'inici de CUPS](images/06-cups-web-home.png)
+![Pàgina d'inici de CUPS](img/06-cups-web-home.png)
 
 ### 4.2. Permisos d'administració
 
@@ -98,15 +98,15 @@ sudo usermod -aG lpadmin vboxuser
 sudo systemctl restart cups
 ```
 
-![Autenticació a /admin](images/07-login-admin.png)
+![Autenticació a /admin](img/07-login-admin.png)
 
-![Afegir vboxuser a lpadmin](images/08-usermod-lpadmin.png)
+![Afegir vboxuser a lpadmin](img/08-usermod-lpadmin.png)
 
 ### 4.3. Afegir la impressora
 
 A **Administració → Afegir impressora** CUPS detecta la impressora local `CUPS-PDF (Virtual PDF Printer)`. També mostra impressores de xarxa descobertes automàticament (una EPSON AM-C4000 de la xarxa on es troben les màquines virtuals), que no s'utilitzen en aquesta pràctica.
 
-![Afegir impressora](images/09-add-printer-list.png)
+![Afegir impressora](img/09-add-printer-list.png)
 
 Es configura la impressora amb les dades següents, activant l'opció **Compartir aquesta impressora**:
 
@@ -117,11 +117,11 @@ Es configura la impressora amb les dades següents, activant l'opció **Comparti
 | Connexió | `cups-pdf:/` |
 | Compartició | Activada |
 
-![Nom, descripció i compartició](images/10-printer-name-sharing.png)
+![Nom, descripció i compartició](img/10-printer-name-sharing.png)
 
 A l'assistent es va seleccionar la marca **Raw** com a driver.
 
-![Selecció de marca Raw](images/11-select-make-raw.png)
+![Selecció de marca Raw](img/11-select-make-raw.png)
 
 ### 4.4. Incidència i solució per línia de comandes
 
@@ -144,7 +144,7 @@ sudo cupsaccept PDF_Printer
 
 CUPS avisa que les cues *raw* estan obsoletes i deixaran de funcionar en una versió futura. Funcionen a la versió actual (2.4.16), però és una limitació a tenir en compte.
 
-![Creació de la cua amb lpadmin](images/13-lpadmin-raw-enable-accept.png)
+![Creació de la cua amb lpadmin](img/13-lpadmin-raw-enable-accept.png)
 
 ---
 
@@ -158,11 +158,11 @@ ipp://192.168.10.1
 
 Una primera prova amb la ruta `ipp://192.168.10.1:631/printers/PDF_printers` no va trobar la impressora, perquè el nom correcte de la cua és `PDF_Printer` (sense la «s» final i respectant les majúscules).
 
-![Primer intent amb URL](images/12-client-add-printer-url.png)
+![Primer intent amb URL](img/12-client-add-printer-url.png)
 
 En escriure `ipp://192.168.10.1`, el client localitza el servidor i mostra la impressora **PDF_Printer** (adreça `192.168.10.1`) a la llista, juntament amb les impressores EPSON descobertes a la xarxa. Això demostra que el client pot localitzar la impressora compartida.
 
-![PDF_Printer detectada al client](images/14-client-printer-detected.png)
+![PDF_Printer detectada al client](img/14-client-printer-detected.png)
 
 ---
 
